@@ -1,0 +1,89 @@
+buffer:
+  default_time: 30.0
+  default_queue_size: 20
+
+
+clients:
+  client0:
+    data:
+      pose:
+        - topic: /clients/vehicles/vehicle_00/pose
+      pointcloud:
+        - topic: /clients/vehicles/vehicle_00/lidar_center/pointcloud
+  client1:
+    data:
+      pose:
+        - topic: /clients/vehicles/vehicle_01/pose
+      pointcloud:
+        - topic: /clients/vehicles/vehicle_01/lidar_center/pointcloud
+  client2:
+    data:
+      pose:
+        - topic: /clients/vehicles/vehicle_02/pose
+  client3:
+    data:
+      pose:
+        - topic: /clients/vehicles/vehicle_03/pose
+  client4:
+    data:
+      pose:
+        - topic: /clients/vehicles/vehicle_04/pose
+  client5:
+    data:
+      pose:
+        - topic: /clients/vehicles/vehicle_05/pose
+  client6:
+    data:
+      pose:
+        - topic: /clients/vehicles/vehicle_06/pose
+  client7:
+    data:
+      pose:
+        - topic: /clients/vehicles/vehicle_07/pose
+  client8:
+    data:
+      pose:
+        - topic: /clients/vehicles/vehicle_08/pose
+  client9:
+    data:
+      pose:
+        - topic: /clients/vehicles/vehicle_09/pose
+  client10:
+    data:
+      pose:
+        - topic: /clients/vehicles/vehicle_10/pose
+  client11:
+    data:
+      pose:
+        - topic: /clients/vehicles/vehicle_11/pose
+  client12:
+    data:
+      pose:
+        - topic: /clients/vehicles/vehicle_12/pose
+  client13:
+    data:
+      pose:
+        - topic: /clients/vehicles/vehicle_13/pose
+  client14:
+    data:
+      pose:
+        - topic: /clients/vehicles/vehicle_14/pose
+  
+
+
+analysis:
+  default_period: 1.0
+
+
+database:
+  large_data_root: /data/large_data
+  dry_run: true
+
+
+rules:
+
+  proximity_based_deployment:
+    enabled: true
+    parameters:
+      max_distance_to_start_deployment: 500
+      min_distance_to_stop_deployment: 500

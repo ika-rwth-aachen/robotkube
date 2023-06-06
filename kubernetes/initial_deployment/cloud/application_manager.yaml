@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: proximity-application-manager
+  labels:
+    app: robotkube
+    node: cloud-application-manager
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      node: cloud-application-manager
+  template:
+    metadata:
+      labels:
+        node: cloud-application-manager
+    spec:
+      terminationGracePeriodSeconds: 0
+      containers:
+        - name: robotkube-application-manager
+          image: rwthika/robotkube-application-manager:2023-06
+          imagePullPolicy: IfNotPresent
+          command:
+            - /bin/bash
+            - -c
+            - |
+              source install/setup.bash
+              until rostopic list &> /dev/null; do echo "Waiting for rosmaster ($ROS_MASTER_URI) ..."; sleep 0.1; done
+              rosrun application_manager application_manager.py
+          env:
+            - name: DOCKER_USER
+              value: root
+            - name: ROS_HOSTNAME # a container's own ROS_HOSTNAME that has to be equal this deployment's service name
+              value: service-proximity-application-manager
+            - name: ROS_MASTER_URI # must be equal to http://<master-deployment-service-name>:<master-deployment-service-port>
+              value: http://service-robotkube-rosmaster-cloud:11311
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-proximity-application-manager
+  labels:
+    app: robotkube
+    node: cloud-application-manager
+spec:
+  clusterIP: None # Starts a headless service: https://kubernetes.io/docs/concepts/services-networking/service/#headless-services
+  ports: 
+    - name: rosport-application-manager
+      port: 11311
+  selector:
+    node: cloud-application-manager

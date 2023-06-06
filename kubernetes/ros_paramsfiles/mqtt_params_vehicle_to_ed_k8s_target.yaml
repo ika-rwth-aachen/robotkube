@@ -1,0 +1,9 @@
+broker:
+  host: service-mqtt-broker-mosquitto
+  port: 1883
+bridge:
+  mqtt2ros:
+    - mqtt_topic: mqtt/clients/vehicles/$(env VEHICLE)/pose
+      ros_topic: /clients/vehicles/$(env VEHICLE)/pose      
+client: 
+    id: "mqtt_client_$(env VEHICLE)_to_ed_k8s_target"

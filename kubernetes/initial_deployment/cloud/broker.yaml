@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cloud-broker
+  labels:
+    app: robotkube
+    node: cloud-broker
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      node: cloud-broker
+  template:
+    metadata:
+      labels:
+        node: cloud-broker
+    spec:
+      terminationGracePeriodSeconds: 0
+      containers:
+      - name: mqtt-broker-mosquitto
+        image: eclipse-mosquitto
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 1883
+        command: ["mosquitto"]
+        args: ["-c", "/mosquitto-no-auth.conf"]
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-mqtt-broker-mosquitto
+  labels:
+    app: robotkube
+spec:
+  selector:
+    # selector must match the <key: value> entries under template.metadata.labels in this deployment.
+    node: cloud-broker
+  ports:
+  - port: 1883
+    targetPort: 1883

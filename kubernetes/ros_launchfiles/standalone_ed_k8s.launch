@@ -1,0 +1,7 @@
+<launch>
+
+  <node pkg="nodelet" type="nodelet" name="event_detector" args="standalone event_detector/event_detector" output="screen">
+    <rosparam command="load" file="$(find event_detector)/launch/ed_params_k8s_rule.yaml" />
+  </node>
+
+</launch>

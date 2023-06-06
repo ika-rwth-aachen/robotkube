@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rosbag-vehicle-07
+  labels:
+    app: robotkube
+    node: robotkube-ros-publisher-07
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      node: robotkube-ros-publisher-07
+  template:
+    metadata:
+      labels:
+        node: robotkube-ros-publisher-07
+    spec:
+      terminationGracePeriodSeconds: 0
+      containers:
+      - name: rosbag-play
+        image: rwthika/robotkube-demo-rosbag:2023-06
+        imagePullPolicy: IfNotPresent
+        command:
+          - /bin/bash
+          - -c
+          - |
+            source /opt/ros/$ROS_DISTRO/setup.bash
+            while true; do rostopic list &> /dev/null && echo "ROS Master $ROS_MASTER_URI is running" && break; echo "ROS Master $ROS_MASTER_URI is not running, retrying in 0.1s"; sleep 0.1; done
+            sleep infinity
+        env:
+          - name: ROS_MASTER_URI # must be equal to http://<master-deployment-service-name>:<master-deployment-service-port>
+            value: http://service-robotkube-rosmaster-vehicle-07:11311
+          - name: DOCKER_USER
+            value: root
+          - name: ROS_HOSTNAME
+            value: service-robotkube-rosbag-vehicle-07
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-robotkube-rosbag-vehicle-07
+  labels:
+    app: robotkube
+    node: robotkube-ros-publisher-07
+spec:
+  clusterIP: None
+  ports: 
+    - port: 11311
+  selector:
+    node: robotkube-ros-publisher-07
+
