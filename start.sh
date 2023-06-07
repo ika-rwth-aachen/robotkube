@@ -88,7 +88,7 @@ function all_pods_running() {
 waiting_duration_in_seconds=5
 while true; do
     if all_pods_running; then
-        # Wait for 2 seconds
+        # Wait for waiting_duration_in_seconds
         echo "All pods are running, waiting $waiting_duration_in_seconds seconds and checking again"
         sleep $waiting_duration_in_seconds
 
