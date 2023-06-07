@@ -8,6 +8,17 @@ This repository accompanies our paper titled **RobotKube: Orchestrating Large-Sc
 
 For detailed information, please refer to the paper. It is currently under review and will be published afterwards.
 
+## Content
+- [Use Case Description](#use-case-description)
+- [Paper and Citation](#paper-and-citation)
+- [Repository Structure](#repository-structure)
+- [Usage](#usage)
+  - [Prerequisites](#prerequisites)
+  - [Quick Start](#quick-start)
+  - [Advanced Monitoring](#advanced-monitoring)
+  - [Interaction and Configuration](interaction-and-configuration)
+- [Acknowledgements](#acknowledgements)
+
 ## Use Case Description
 
 The use case involves fifteen connected vehicles, two of which are equipped with a lidar sensor. All vehicles send their poses to a cloud. When the lidar-equipped vehicles are near each other, the deployment of additional applications in the Kubernetes cluster is automatically triggered such that the two lidar-equipped vehicles start to additionally transmit their lidar point clouds to the cloud where they are stored in a database, along with the corresponding poses, e.g., allowing [collective learning](https://doi.org/10.1007/s38314-022-1405-9).
@@ -45,7 +56,8 @@ robotkube
     └── volumes               # persistent volumes and claims
 ```
 
-## Prerequisites
+## Usage
+### Prerequisites
 
 If not available already, install the following:
 
@@ -56,7 +68,7 @@ If not available already, install the following:
 
 We recommend *50 GB* of free disk space.
 
-## Quick Start
+### Quick Start
 
 1. Make sure prerequisites are installed and clone this repository:
 
@@ -109,7 +121,7 @@ We recommend *50 GB* of free disk space.
     kind delete cluster --name robotkube
     ```
 
-## Advanced Monitoring
+### Advanced Monitoring
 
 If you want to receive more information on what is happening in the cluster, you have the following options:
 
@@ -128,7 +140,7 @@ If you want to receive more information on what is happening in the cluster, you
     ```
     You will only start seeing output after a while, when a new automatic deployment is requested.
 
-## Interaction and Configuration
+### Interaction and Configuration
 
 If you want to interact with the applications in the cluster or configure them differently, you have the following options:
 
