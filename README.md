@@ -6,8 +6,6 @@ In the repository, you will find **instructions** on how to **reproduce** a **us
 
 The approach combines **Kubernetes** with the **Robot Operating System (ROS)** and our developed software, an **event detector** and an **application manger** for Kubernetes.
 
-**WARNING**: The Docker images on which this repository relies are not available on Docker Hub yet. We will make them available in the coming days. If you are reviewing our work and need the images, please contact us directly.
-
 ## Paper and Citation
 
 We hope our paper, data and code can help in your research. If this is the case, please cite our paper and give this repository a star ⭐. Citation details will follow after the publication of the paper. It is currently under review.
