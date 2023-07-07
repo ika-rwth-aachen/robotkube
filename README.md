@@ -133,12 +133,26 @@ If you want to receive more information on what is happening in the cluster, you
 2. Monitor the time it takes to analyze the distances between all vehicles.
     ```bash
     kubectl logs --follow $(kubectl get pods | grep proximity-event-detector | awk '{print $1}') | grep "Analyzed rule"
+    ```
 
 3. Visualize the latest deployment request sent to the application manager from the proximity event detector via its operator plugin.
     ```bash
     kubectl exec --stdin --tty $(kubectl get pods | grep proximity-application-manager | awk '{print $1}') -- /bin/bash -c "source /docker-ros/ws/install/setup.bash && rostopic echo --clear /event_detector/proximity_based_deployment/deployment_request"
     ```
     You will only start seeing output after a while, when a new automatic deployment is requested.
+
+4. Visualize the content of the database using [mongo-express](https://github.com/mongo-express/mongo-express) by running 
+    ```bash
+    # robotkube
+    docker compose -f data/docker-compose.yml up
+    ```
+    and then opening [http://localhost:8081](http://localhost:8081) in your browser. Here, choose the `mongodb` database to get the following view:
+
+    <img src=assets/robotkube_database.png alt="Image Description" width="300">
+
+    You may take a look at the content of each collection.
+
+    *Hint*: The deployments in the cluster must be stopped in order for the database visualization to work and you must have gathered data before.
 
 ### Interaction and Configuration
 
