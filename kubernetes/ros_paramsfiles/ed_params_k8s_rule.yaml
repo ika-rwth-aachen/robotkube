@@ -85,5 +85,5 @@ rules:
   proximity_based_deployment:
     enabled: true
     parameters:
-      max_distance_to_start_deployment: 500
+      max_distance_to_start_deployment: 400
       min_distance_to_stop_deployment: 500
