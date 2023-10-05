@@ -31,9 +31,9 @@ The video shows a section of the data upon which the use case is built. Poses of
 
 ## Paper and Citation
 
-We hope our paper, data and code can help in your research. If this is the case, please cite our paper and give this repository a star ⭐. Citation details will follow after the publication of the paper.
+We hope our paper, data and code can help in your research. If this is the case, please [cite](https://github.com/ika-rwth-aachen/robotkube/blob/main/CITATION.cff) our paper and give this repository a star ⭐.
 
-> **RobotKube: Orchestrating Large-Scale Cooperative Multi-Robot Systems with Kubernetes and ROS**  
+> **RobotKube: Orchestrating Large-Scale Cooperative Multi-Robot Systems with Kubernetes and ROS** ([arXiv](https://arxiv.org/abs/2308.07053), [Researchgate](https://www.researchgate.net/publication/373110880_RobotKube_Orchestrating_Large-Scale_Cooperative_Multi-Robot_Systems_with_Kubernetes_and_ROS))
 >
 > [Bastian Lampe](https://www.ika.rwth-aachen.de/de/institut/team/fahrzeugintelligenz-automatisiertes-fahren/lampe.html), [Lennart Reiher](https://www.ika.rwth-aachen.de/de/institut/team/fahrzeugintelligenz-automatisiertes-fahren/reiher.html), [Lukas Zanger](https://www.ika.rwth-aachen.de/de/institut/team/fahrzeugintelligenz-automatisiertes-fahren/zanger.html), [Timo Woopen](https://www.ika.rwth-aachen.de/de/institut/team/fahrzeugintelligenz-automatisiertes-fahren/woopen.html), [Raphael van Kempen](https://www.ika.rwth-aachen.de/de/institut/team/fahrzeugintelligenz-automatisiertes-fahren/van-kempen.html), and [Lutz Eckstein](https://www.ika.rwth-aachen.de/de/institut/team/univ-prof-dr-ing-lutz-eckstein.html)  
 > [Institute for Automotive Engineering (ika), RWTH Aachen University](https://www.ika.rwth-aachen.de/en/)
