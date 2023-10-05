@@ -1,0 +1,36 @@
+cff-version: 1.2.0
+message: "We hope that our paper and code can help your research. If this is the case, please cite it using the following metadata."
+
+title: "RobotKube"
+type: software
+repository-code: "https://github.com/ika-rwth-aachen/robotkube"
+date-released: 2023-06-06
+authors:
+  - given-names: Bastian
+    family-names: Lampe
+  - given-names: Lennart
+    family-names: Reiher
+  - given-names: Lukas
+    family-names: Zanger
+
+preferred-citation:
+  title: "RobotKube: Orchestrating Large-Scale Cooperative Multi-Robot Systems with Kubernetes and ROS"
+  type: conference-paper
+  conference:
+    name: "26th IEEE International Conference on Intelligent Transportation Systems (ITSC 2023)"
+  month: 9
+  year: 2023
+  # doi: ""
+  authors:
+    - given-names: Bastian
+      family-names: Lampe
+    - given-names: Lennart
+      family-names: Reiher
+    - given-names: Lukas
+      family-names: Zanger
+    - given-names: Timo
+      family-names: Woopen
+    - given-names: Raphael
+      family-names: van Kempen
+    - given-names: Lutz
+      family-names: Eckstein
