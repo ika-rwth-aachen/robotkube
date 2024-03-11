@@ -1,12 +1,12 @@
 # RobotKube
 
-This repository accompanies our paper titled **RobotKube: Orchestrating Large-Scale Cooperative Multi-Robot Systems with Kubernetes and ROS**. In the repository, you will find instructions on how to reproduce a use case enabled by our approach, which combines
+This repository accompanies our paper titled **RobotKube: Orchestrating Large-Scale Cooperative Multi-Robot Systems with Kubernetes and ROS**.
 
-- **Kubernetes**,
-- the **Robot Operating System (ROS)**, and our developed
-- **event detector** and Kubernetes **application manger**.
+In the repository, you will find **instructions** on how to **reproduce** a **use case** that is enabled by our approach described in the paper.
 
-For detailed information, please refer to the paper. It is currently under review and will be published afterwards.
+The approach combines **Kubernetes** with the **Robot Operating System (ROS)** and our developed software, an **event detector** and an **application manger** for Kubernetes. 
+
+Since the initial release of this repository, the use case has been updated to **ROS 2**.
 
 > [!IMPORTANT]  
 > This repository is open-sourced and maintained by the [**Institute for Automotive Engineering (ika) at RWTH Aachen University**](https://www.ika.rwth-aachen.de/).  
@@ -24,7 +24,7 @@ For detailed information, please refer to the paper. It is currently under revie
   - [Prerequisites](#prerequisites)
   - [Quick Start](#quick-start)
   - [Advanced Monitoring](#advanced-monitoring)
-  - [Interaction and Configuration](interaction-and-configuration)
+  - [Interaction and Configuration](#interaction-and-configuration)
 - [Acknowledgements](#acknowledgements)
 
 ## Use Case Description
@@ -32,20 +32,43 @@ For detailed information, please refer to the paper. It is currently under revie
 The use case involves fifteen connected vehicles, two of which are equipped with a lidar sensor. All vehicles send their poses to a cloud. When the lidar-equipped vehicles are near each other, the deployment of additional applications in the Kubernetes cluster is automatically triggered such that the two lidar-equipped vehicles start to additionally transmit their lidar point clouds to the cloud where they are stored in a database, along with the corresponding poses, e.g., allowing [collective learning](https://doi.org/10.1007/s38314-022-1405-9).
 
 <p align="center">
-  <img src="assets/robotkube_teaser.gif" alt="The video shows a section of the data upon which the use case is built. Poses of vehicles with no lidar sensor are visualized as green arrows. Poses of lidar-equipped vehicles are visualized as red arrows. The point clouds can be seen in blue and orange. The playback is sped up eightfold." width="70%">
+  <img src="assets/robotkube_teaser.gif" alt="The video shows a section of the data upon which the use case is built. Poses of vehicles with no lidar sensor are visualized as green arrows. Poses of lidar-equipped vehicles are visualized as red arrows. The point clouds can be seen in blue and orange. The playback is sped up eightfold." width="100%">
 </p>
 
 The video shows a section of the data upon which the use case is built. Poses of vehicles with no lidar sensor are visualized as green arrows. Poses of lidar-equipped vehicles are visualized as red arrows. The point clouds can be seen in blue and orange. The playback is sped up eightfold.
 
+<p align="center">
+<img src="assets/robotkube_use_case.gif" alt="Animation shows how the different components of RobotKube act during an exemplary use case." width="100%">
+</p>
+
+The animation shows how the different software components interact during the exemplary use case. Some initially deployed services are continually running. Upon the detection of proximity between the lidar-equipped vehicles, additional services are deployed to enable the transfer of poses and point clouds from the vehicles to a database in the cloud. When the proximity ends, the additional services are automatically removed again. 
+
+This approach can be adjusted to various other use cases where additonal software shall be deployed or scenario data shall be recorded when triggered by an event.
+
 ## Paper and Citation
 
-We hope our paper, data and code can help in your research. If this is the case, please [cite](https://github.com/ika-rwth-aachen/robotkube/blob/main/CITATION.cff) our paper and give this repository a star ⭐.
+We hope our paper, data and code can help in your research. If this is the case, please cite our paper and give this repository a star ⭐.
 
-> **RobotKube: Orchestrating Large-Scale Cooperative Multi-Robot Systems with Kubernetes and ROS** ([arXiv](https://arxiv.org/abs/2308.07053), [Researchgate](https://www.researchgate.net/publication/373110880_RobotKube_Orchestrating_Large-Scale_Cooperative_Multi-Robot_Systems_with_Kubernetes_and_ROS))
+<details>
+<summary>BibTeX</summary>
+
+```
+@INPROCEEDINGS{Lampe2023RobotKube,
+  author={Lampe, Bastian and Reiher, Lennart and Zanger, Lukas and Woopen, Timo and van Kempen, Raphael and Eckstein, Lutz},
+  booktitle={2023 IEEE 26th International Conference on Intelligent Transportation Systems (ITSC)}, 
+  title={RobotKube: Orchestrating Large-Scale Cooperative Multi-Robot Systems with Kubernetes and ROS}, 
+  year={2023},
+  pages={2719-2725},
+  doi={10.1109/ITSC57777.2023.10422370}}
+```
+</details>
+
+> **RobotKube: Orchestrating Large-Scale Cooperative Multi-Robot Systems with Kubernetes and ROS** ([IEEE Xplore](https://ieeexplore.ieee.org/document/10422370), [arXiv](https://arxiv.org/abs/2308.07053))
 >
-> [Bastian Lampe](https://www.ika.rwth-aachen.de/de/institut/team/fahrzeugintelligenz-automatisiertes-fahren/lampe.html), [Lennart Reiher](https://www.ika.rwth-aachen.de/de/institut/team/fahrzeugintelligenz-automatisiertes-fahren/reiher.html), [Lukas Zanger](https://www.ika.rwth-aachen.de/de/institut/team/fahrzeugintelligenz-automatisiertes-fahren/zanger.html), [Timo Woopen](https://www.ika.rwth-aachen.de/de/institut/team/fahrzeugintelligenz-automatisiertes-fahren/woopen.html), [Raphael van Kempen](https://www.ika.rwth-aachen.de/de/institut/team/fahrzeugintelligenz-automatisiertes-fahren/van-kempen.html), and [Lutz Eckstein](https://www.ika.rwth-aachen.de/de/institut/team/univ-prof-dr-ing-lutz-eckstein.html)  
+> [Bastian Lampe](https://www.ika.rwth-aachen.de/de/institut/team/fahrzeugintelligenz-automatisiertes-fahren/lampe.html), [Lennart Reiher](https://www.ika.rwth-aachen.de/de/institut/team/fahrzeugintelligenz-automatisiertes-fahren/reiher.html), [Lukas Zanger](https://www.ika.rwth-aachen.de/de/institut/team/fahrzeugintelligenz-automatisiertes-fahren/zanger.html), [Timo Woopen](https://www.ika.rwth-aachen.de/de/institut/team/fahrzeugintelligenz-automatisiertes-fahren/woopen.html), [Raphael van Kempen](https://www.ika.rwth-aachen.de/de/institut/team/fahrzeugintelligenz-automatisiertes-fahren/van-kempen.html), and [Lutz Eckstein](https://www.ika.rwth-aachen.de/de/institut/team/univ-prof-dr-ing-lutz-eckstein.html)
+>
 > [Institute for Automotive Engineering (ika), RWTH Aachen University](https://www.ika.rwth-aachen.de/en/)
->
+> 
 > <sup>*Abstract* – Modern cyber-physical systems (CPS) such as Cooperative Intelligent Transport Systems (C-ITS) are increasingly defined by the software which operates these systems. In practice, service-oriented software architectures can be employed, which may consist of containerized microservices running in a cluster comprised of robots and supporting infrastructure. These microservices need to be orchestrated dynamically according to ever changing requirements posed at the system. Additionally, these systems are embedded in DevOps processes aiming at continually updating and upgrading both the capabilities of CPS components and of the system as a whole. In this paper, we present RobotKube, an approach to orchestrating containerized microservices for large-scale cooperative multi-robot CPS based on Kubernetes. We describe how to automate the orchestration of software across a CPS, and include the possibility to monitor and selectively store relevant accruing data. In this context, we present two main components of such a system: an event detector capable of, e.g., requesting the deployment of additional applications, and an application manager capable of automatically configuring the required changes in the Kubernetes cluster. By combining the widely adopted Kubernetes platform with the Robot Operating System (ROS), we enable the use of standard tools and practices for developing, deploying, scaling, and monitoring microservices in C-ITS. We demonstrate and evaluate RobotKube in an exemplary and reproducible use case that we make publicly available at [github.com/ika-rwth-aachen/robotkube](https://github.com/ika-rwth-aachen/robotkube).</sup>
 
 ## Repository Structure
@@ -71,7 +94,7 @@ If not available already, install the following:
 
 - [Ubuntu](https://ubuntu.com/download/desktop)
 - [Docker Engine](https://docs.docker.com/engine/install/ubuntu/) 
-- [KinD](https://kind.sigs.k8s.io/docs/user/quick-start/#installation)
+- [K3D](https://k3d.io/v5.6.0/#install-current-latest-release)
 - [kubectl](https://kubernetes.io/docs/tasks/tools/#kubectl)
 
 We recommend *50 GB* of free disk space.
@@ -108,25 +131,9 @@ We recommend *50 GB* of free disk space.
 
     In [data/db](data/db), you find the mongoDB database. It stores recorded poses and paths to corresponding point clouds which are stored in [data/large_data](data/large_data/).
 
-5. If you want to get information on the different kinds of latencies involved in the use case, feel free to run
+6. If you want to delete the K3D cluster, run
     ```bash
-    # robotkube/latencies
-    ./extract_timestamps.sh
-    ```
-    after an automatic deployment has finished to gather all relevant timestamps.
-
-    You can then plot the result using
-
-    ```bash
-    # robotkube/latencies
-    ./plot_latencies.py timestamps-all.csv
-    ```
-
-    in a suitable Python environment.
-
-7. If you want to delete the KinD cluster, run
-    ```bash
-    kind delete cluster --name robotkube
+    k3d cluster delete robotkube
     ```
 
 ### Advanced Monitoring
@@ -135,26 +142,19 @@ If you want to receive more information on what is happening in the cluster, you
 
 1. Monitor the current lidar-equipped vehicles' distance to each other
     ```bash
-    kubectl logs --follow $(kubectl get pods | grep proximity-event-detector | awk '{print $1}') | grep "Distance between clients"
+    kubectl logs --follow $(kubectl get pods | grep cloud-operator-proximity-ed | awk '{print $1}') | grep "Distance between clients"
     ```
 
 2. Monitor the time it takes to analyze the distances between all vehicles.
     ```bash
-    kubectl logs --follow $(kubectl get pods | grep proximity-event-detector | awk '{print $1}') | grep "Analyzed rule"
-    ```
+    kubectl logs --follow $(kubectl get pods | grep cloud-operator-proximity-ed | awk '{print $1}') | grep "Analyzed rule"
 
-3. Visualize the latest deployment request sent to the application manager from the proximity event detector via its operator plugin.
-    ```bash
-    kubectl exec --stdin --tty $(kubectl get pods | grep proximity-application-manager | awk '{print $1}') -- /bin/bash -c "source /docker-ros/ws/install/setup.bash && rostopic echo --clear /event_detector/proximity_based_deployment/deployment_request"
-    ```
-    You will only start seeing output after a while, when a new automatic deployment is requested.
-
-4. Visualize the content of the database using [mongo-express](https://github.com/mongo-express/mongo-express) by running 
+3. Visualize the content of the database using [mongo-express](https://github.com/mongo-express/mongo-express) by running 
     ```bash
     # robotkube
     docker compose -f data/docker-compose.yml up
     ```
-    and then opening [http://localhost:8081](http://localhost:8081) in your browser. Here, choose the `mongodb` database to get the following view:
+    and then opening [http://localhost:8081](http://localhost:8081) in your browser (user: `admin`, password: `pass`). Here, choose the `mongodb` database to get the following view:
 
     <img src=assets/robotkube_database.png alt="Image Description" width="300">
 

@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cloud-operator-proximity-ed
+  labels:
+    app: robotkube
+    node: cloud-operator-proximity-ed
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      node: cloud-operator-proximity-ed
+  template:
+    metadata:
+      labels:
+        node: cloud-operator-proximity-ed
+    spec:
+      terminationGracePeriodSeconds: 0
+      containers:
+        - name: robotkube-ed-k8s
+          image: rwthika/robotkube-event-detector-operator:2024-03
+          imagePullPolicy: IfNotPresent
+          command:
+            - /bin/bash
+            - -c
+            - |
+              source install/setup.bash
+              until ros2 topic list &> /dev/null; do echo "Waiting for ROS ..."; sleep 0.1; done
+              ros2 launch /docker-ros/ws/install/share/event_detector/launch/standalone_ed_k8s.launch.py params:=/docker-ros/ws/install/share/event_detector/launch/ed_params_k8s_rule.yaml startup_state:=3
+          env:
+            - name: DOCKER_USER
+              value: root
+          volumeMounts:
+          - name: ed-params-k8s-rule-config-volume
+            mountPath: /docker-ros/ws/install/share/event_detector/launch
+        - name: robotkube-application-manager
+          image: rwthika/robotkube-application-manager:2024-03
+          imagePullPolicy: IfNotPresent
+          command:
+            - /bin/bash
+            - -c
+            - |
+              source install/setup.bash
+              until ros2 topic list &> /dev/null; do echo "Waiting for ROS ..."; sleep 0.1; done
+              ros2 launch application_manager application_manager.launch.py params:=/docker-ros/ws/install/application_manager/share/application_manager/config/am_params.yaml
+          env:
+            - name: DOCKER_USER
+              value: root
+          volumeMounts:
+          - name: application-manager-config-volume
+            mountPath: /docker-ros/ws/install/application_manager/share/application_manager/config
+{{DYNAMIC_CONTAINERS}}         
+      volumes:
+      - name: ed-params-k8s-rule-config-volume
+        configMap:
+          name: ed-params-k8s-rule
+      - name: application-manager-config-volume
+        configMap:
+          name: application-manager-params
+      - name: mqtt-vehicle-to-ed-k8s-target-config-volume
+        configMap:
+          name: mqtt-params-vehicle-to-ed-k8s-target
