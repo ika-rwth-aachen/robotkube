@@ -1,9 +1,0 @@
-kind: Cluster
-apiVersion: kind.x-k8s.io/v1alpha4
-nodes:
-- role: control-plane
-  extraMounts:
-  - hostPath: ./data/db
-    containerPath: /data/db
-  - hostPath: ./data/large_data
-    containerPath: /data/large_data

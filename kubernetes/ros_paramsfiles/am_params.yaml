@@ -1,0 +1,81 @@
+application_manager:
+  ros__parameters:
+
+    # common parameters
+    image_list: "config/am_image_list.json"
+    # cluster_config: "config/cluster_config.yml"
+
+    label_app: "robotkube"
+    # namespace: "default"
+
+    deployment_action_name: "/event_detector/operator_plugin/deployment_request"
+
+
+    # application-specific parameters
+    apps:
+
+      ed_db:
+
+        use_sim_time: true
+
+        buffer:
+          default_time: 30.0
+          default_queue_size: 20
+          use_msg_stamp: true
+
+        analysis:
+          default_period: 1.0
+
+        event_detector_recording_plugin::RecordAllRule:
+          enabled: true
+          period: 3.0
+          parameters:
+            database:
+              name: mongodb
+              host: mongodb
+              port: 27017
+              large_data_root: /data/large_data
+              dry_run: false
+            pointcloud: true
+            pose: true
+
+
+    # connection parameters
+    connections:
+
+      init_comm_topics:
+        - /vehicles/vehicle_00/pose
+        - /vehicles/vehicle_01/pose
+        - /vehicles/vehicle_02/pose
+        - /vehicles/vehicle_03/pose
+        - /vehicles/vehicle_04/pose
+        - /vehicles/vehicle_05/pose
+        - /vehicles/vehicle_06/pose
+        - /vehicles/vehicle_07/pose
+        - /vehicles/vehicle_08/pose
+        - /vehicles/vehicle_09/pose
+        - /vehicles/vehicle_10/pose
+        - /vehicles/vehicle_11/pose
+        - /vehicles/vehicle_12/pose
+        - /vehicles/vehicle_13/pose
+        - /vehicles/vehicle_14/pose
+        - /clients/vehicles/vehicle_00/pose
+        - /clients/vehicles/vehicle_01/pose
+        - /clients/vehicles/vehicle_02/pose
+        - /clients/vehicles/vehicle_03/pose
+        - /clients/vehicles/vehicle_04/pose
+        - /clients/vehicles/vehicle_05/pose
+        - /clients/vehicles/vehicle_06/pose
+        - /clients/vehicles/vehicle_07/pose
+        - /clients/vehicles/vehicle_08/pose
+        - /clients/vehicles/vehicle_09/pose
+        - /clients/vehicles/vehicle_10/pose
+        - /clients/vehicles/vehicle_11/pose
+        - /clients/vehicles/vehicle_12/pose
+        - /clients/vehicles/vehicle_13/pose
+        - /clients/vehicles/vehicle_14/pose
+
+      mqtt_client:
+        broker:
+          host: service-mqtt-broker-mosquitto
+          port: 1883

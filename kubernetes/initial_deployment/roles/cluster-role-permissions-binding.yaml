@@ -1,0 +1,15 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: cluster-role-permissions-binding
+  namespace: default
+  labels:
+    app: robotkube
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-role-permissions
+subjects:
+- kind: ServiceAccount
+  name: default
+  namespace: default

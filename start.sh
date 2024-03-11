@@ -16,9 +16,42 @@ echo "Cluster Roles have been created."
 
 # create configmaps
 echo "Creating configmaps ..."
-kubectl create configmap mqtt-params-vehicle-to-ed-k8s-source --from-file=kubernetes/ros_paramsfiles/mqtt_params_vehicle_to_ed_k8s_source.yaml --from-file=kubernetes/ros_launchfiles/standalone_mqtt_client.launch -o yaml --dry-run=client | sed 's/^metadata:/metadata:\n  labels:\n    app: robotkube/'| kubectl apply -f - 1>/dev/null
-kubectl create configmap mqtt-params-vehicle-to-ed-k8s-target --from-file=kubernetes/ros_paramsfiles/mqtt_params_vehicle_to_ed_k8s_target.yaml --from-file=kubernetes/ros_launchfiles/standalone_mqtt_client.launch -o yaml --dry-run=client | sed 's/^metadata:/metadata:\n  labels:\n    app: robotkube/' | kubectl apply -f - 1>/dev/null
-kubectl create configmap ed-params-k8s-rule --from-file=kubernetes/ros_paramsfiles/ed_params_k8s_rule.yaml --from-file=kubernetes/ros_launchfiles/standalone_ed_k8s.launch -o yaml --dry-run=client | sed 's/^metadata:/metadata:\n  labels:\n    app: robotkube/' | kubectl apply -f - 1>/dev/null
+kubectl create configmap mqtt-params-vehicle-to-ed-k8s-source --from-file=kubernetes/ros_paramsfiles/mqtt_vehicle_source/mqtt_params_vehicle-00_to_ed_k8s_source.yaml \
+                                                              --from-file=kubernetes/ros_paramsfiles/mqtt_vehicle_source/mqtt_params_vehicle-01_to_ed_k8s_source.yaml \
+                                                              --from-file=kubernetes/ros_paramsfiles/mqtt_vehicle_source/mqtt_params_vehicle-02_to_ed_k8s_source.yaml \
+                                                              --from-file=kubernetes/ros_paramsfiles/mqtt_vehicle_source/mqtt_params_vehicle-03_to_ed_k8s_source.yaml \
+                                                              --from-file=kubernetes/ros_paramsfiles/mqtt_vehicle_source/mqtt_params_vehicle-04_to_ed_k8s_source.yaml \
+                                                              --from-file=kubernetes/ros_paramsfiles/mqtt_vehicle_source/mqtt_params_vehicle-05_to_ed_k8s_source.yaml \
+                                                              --from-file=kubernetes/ros_paramsfiles/mqtt_vehicle_source/mqtt_params_vehicle-06_to_ed_k8s_source.yaml \
+                                                              --from-file=kubernetes/ros_paramsfiles/mqtt_vehicle_source/mqtt_params_vehicle-07_to_ed_k8s_source.yaml \
+                                                              --from-file=kubernetes/ros_paramsfiles/mqtt_vehicle_source/mqtt_params_vehicle-08_to_ed_k8s_source.yaml \
+                                                              --from-file=kubernetes/ros_paramsfiles/mqtt_vehicle_source/mqtt_params_vehicle-09_to_ed_k8s_source.yaml \
+                                                              --from-file=kubernetes/ros_paramsfiles/mqtt_vehicle_source/mqtt_params_vehicle-10_to_ed_k8s_source.yaml \
+                                                              --from-file=kubernetes/ros_paramsfiles/mqtt_vehicle_source/mqtt_params_vehicle-11_to_ed_k8s_source.yaml \
+                                                              --from-file=kubernetes/ros_paramsfiles/mqtt_vehicle_source/mqtt_params_vehicle-12_to_ed_k8s_source.yaml \
+                                                              --from-file=kubernetes/ros_paramsfiles/mqtt_vehicle_source/mqtt_params_vehicle-13_to_ed_k8s_source.yaml \
+                                                              --from-file=kubernetes/ros_paramsfiles/mqtt_vehicle_source/mqtt_params_vehicle-14_to_ed_k8s_source.yaml \
+                                                              --from-file=kubernetes/ros_launchfiles/standalone_mqtt_client_source.launch.ros2.xml \
+                                                              -o yaml --dry-run=client | sed 's/^metadata:/metadata:\n  labels:\n    app: robotkube/'| kubectl apply -f - 1>/dev/null
+kubectl create configmap mqtt-params-vehicle-to-ed-k8s-target --from-file=kubernetes/ros_paramsfiles/mqtt_vehicle_target/mqtt_params_vehicle-00_to_ed_k8s_target.yaml \
+                                                              --from-file=kubernetes/ros_paramsfiles/mqtt_vehicle_target/mqtt_params_vehicle-01_to_ed_k8s_target.yaml \
+                                                              --from-file=kubernetes/ros_paramsfiles/mqtt_vehicle_target/mqtt_params_vehicle-02_to_ed_k8s_target.yaml \
+                                                              --from-file=kubernetes/ros_paramsfiles/mqtt_vehicle_target/mqtt_params_vehicle-03_to_ed_k8s_target.yaml \
+                                                              --from-file=kubernetes/ros_paramsfiles/mqtt_vehicle_target/mqtt_params_vehicle-04_to_ed_k8s_target.yaml \
+                                                              --from-file=kubernetes/ros_paramsfiles/mqtt_vehicle_target/mqtt_params_vehicle-05_to_ed_k8s_target.yaml \
+                                                              --from-file=kubernetes/ros_paramsfiles/mqtt_vehicle_target/mqtt_params_vehicle-06_to_ed_k8s_target.yaml \
+                                                              --from-file=kubernetes/ros_paramsfiles/mqtt_vehicle_target/mqtt_params_vehicle-07_to_ed_k8s_target.yaml \
+                                                              --from-file=kubernetes/ros_paramsfiles/mqtt_vehicle_target/mqtt_params_vehicle-08_to_ed_k8s_target.yaml \
+                                                              --from-file=kubernetes/ros_paramsfiles/mqtt_vehicle_target/mqtt_params_vehicle-09_to_ed_k8s_target.yaml \
+                                                              --from-file=kubernetes/ros_paramsfiles/mqtt_vehicle_target/mqtt_params_vehicle-10_to_ed_k8s_target.yaml \
+                                                              --from-file=kubernetes/ros_paramsfiles/mqtt_vehicle_target/mqtt_params_vehicle-11_to_ed_k8s_target.yaml \
+                                                              --from-file=kubernetes/ros_paramsfiles/mqtt_vehicle_target/mqtt_params_vehicle-12_to_ed_k8s_target.yaml \
+                                                              --from-file=kubernetes/ros_paramsfiles/mqtt_vehicle_target/mqtt_params_vehicle-13_to_ed_k8s_target.yaml \
+                                                              --from-file=kubernetes/ros_paramsfiles/mqtt_vehicle_target/mqtt_params_vehicle-14_to_ed_k8s_target.yaml \
+                                                              --from-file=kubernetes/ros_launchfiles/standalone_mqtt_client_target.launch.ros2.xml \
+                                                              -o yaml --dry-run=client | sed 's/^metadata:/metadata:\n  labels:\n    app: robotkube/' | kubectl apply -f - 1>/dev/null
+kubectl create configmap ed-params-k8s-rule --from-file=kubernetes/ros_paramsfiles/ed_params_k8s_rule.yaml --from-file=kubernetes/ros_launchfiles/standalone_ed_k8s.launch.py -o yaml --dry-run=client | sed 's/^metadata:/metadata:\n  labels:\n    app: robotkube/' | kubectl apply -f - 1>/dev/null
+kubectl create configmap application-manager-params --from-file=kubernetes/ros_paramsfiles/am_params.yaml --from-file=kubernetes/ros_paramsfiles/am_image_list.json -o yaml --dry-run=client | sed 's/^metadata:/metadata:\n  labels:\n    app: robotkube/' | kubectl apply -f - 1>/dev/null
 echo "Configmaps have been created."
 
 # Create K8S Persistent Volumes
@@ -28,9 +61,6 @@ echo "Persistent volumes have been created."
 
 echo "Requesting initial Deployments ..."
 # Create all Deployments of the initial deployment
-kubectl apply -f kubernetes/initial_deployment/vehicles/rosmasters 1>/dev/null # masters first
-kubectl apply -f kubernetes/initial_deployment/cloud/rosmaster.yaml 1>/dev/null # masters first
-sleep 15
 find kubernetes/initial_deployment -type f -name "*.yaml" -exec awk 'BEGIN{RS="\n\n";ORS="\n---\n"} /apiVersion: apps\/v1/ && /kind: Deployment/' {} + | kubectl apply -f - 1>/dev/null
 echo "Initial deployments have been requested."
 
@@ -54,13 +84,12 @@ function all_pods_exist() {
     fi
 }
 
-# Wait until all "rosbag-vehicle" pods exist
 while ! all_pods_exist; do
     sleep 0.1
 done
 
 echo "Waiting for all $expected_pod_count pods to start running ..."
-# Get the names of all pods containing "rosbag-vehicle"
+
 pod_names=$(kubectl get pods --no-headers | awk '{print $1}')
 
 # Function to check if all pods are running
@@ -88,7 +117,7 @@ function all_pods_running() {
 waiting_duration_in_seconds=5
 while true; do
     if all_pods_running; then
-        # Wait for waiting_duration_in_seconds
+        # Wait for 2 seconds
         echo "All pods are running, waiting $waiting_duration_in_seconds seconds and checking again"
         sleep $waiting_duration_in_seconds
 
@@ -101,14 +130,14 @@ while true; do
     sleep 0.1
 done
 
+# Get the names of all pods containing "vehicle-publisher"
+pod_names_rosbag=$(kubectl get pods | grep vehicle-publisher | awk '{print $1}')
 
-pod_names_rosbag=$(kubectl get pods | grep rosbag-vehicle | awk '{print $1}')
-
-# All pods are running, print their names and the current date and do rosbag play
+# All pods are running, print their names and the current date and do ros2 bag play
 for pod_name in $pod_names_rosbag; do
     # Start the rosbag
     id=$(echo $pod_name | awk -F '-' '{print $3}')
-    kubectl exec $pod_name  -- bash -c "echo $pod_name $(date +'%T.%3N') ; . /opt/ros/noetic/setup.bash ; rosbag play -l -r 1 -s 50 /tmp/bagfile_split${id}.bag >/dev/null 2>&1 &  " >/dev/null & 
+    kubectl exec $pod_name -c rosbag-play  -- bash -c "echo $pod_name $(date +'%T.%3N') ; . /opt/ros/humble/setup.bash ; ros2 bag play -l -r 1 --start-offset 50 /tmp/bagfile_split${id} >/dev/null 2>&1 &  " >/dev/null & 
 done
 
 wait

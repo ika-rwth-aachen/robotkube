@@ -1,28 +1,36 @@
 #!/bin/bash
 
 # Define image names
-ROSMASTER_IMAGE="ros:noetic-ros-core"
-MQTT_CLIENT_IMAGE="rwthika/robotkube-mqtt-client:2023-06"
-EVENT_DETECTOR_IMAGE="rwthika/robotkube-event-detector:2023-06"
+MQTT_CLIENT_IMAGE="rwthika/robotkube-mqtt-client:2024-03"
+EVENT_DETECTOR_RECORDING_PLUGIN_IMAGE="rwthika/robotkube-event-detector-recording:2024-03"
+EVENT_DETECTOR_OPERATOR_PLUGIN_IMAGE="rwthika/robotkube-event-detector-operator:2024-03"
 MONGO_IMAGE="mongo:6"
-APPLICATION_MANAGER_IMAGE="rwthika/robotkube-application-manager:2023-06"
-ROSBAG_IMAGE="rwthika/robotkube-demo-rosbag:2023-06"
+APPLICATION_MANAGER_IMAGE="rwthika/robotkube-application-manager:2024-03"
+ROSBAG_IMAGE="rwthika/robotkube-demo-rosbag:2024-03"
 
 # Store PIDs of background processes
 pids=()
 
 # Delete previous robotkube cluster if it exists
-if kind get clusters | grep -q "robotkube"; then kind delete cluster --name robotkube; fi
+if k3d cluster list | grep -q "robotkube"; then k3d cluster delete robotkube; fi
 
 # Create robotkube cluster using config file
-kind create cluster --config=robotkube-kind-cluster.yaml --name robotkube
+SCRIPT_PATH=$(readlink -f "$0")
+cat <<EOL > robotkube-k3d-cluster.yaml
+kind: Simple
+apiVersion: k3d.io/v1alpha5
+volumes:
+  - volume: $(dirname "$SCRIPT_PATH")/data/db:/data/db
+  - volume: $(dirname "$SCRIPT_PATH")/data/large_data:/data/large_data
+EOL
+k3d cluster create robotkube --config=robotkube-k3d-cluster.yaml
 
 # Function to pull and load an image
 pull_and_load_image() {
     local image_name="$1"
-    
+
     if docker pull --quiet "$image_name"; then
-        kind load docker-image "$image_name" --name robotkube &
+        k3d image import "$image_name" --cluster robotkube
         pids+=($!)
     else
         echo "Error: Failed to pull or access the $image_name image."
@@ -32,9 +40,9 @@ pull_and_load_image() {
 }
 
 # Pull and load images into cluster
-pull_and_load_image "$ROSMASTER_IMAGE"
 pull_and_load_image "$MQTT_CLIENT_IMAGE"
-pull_and_load_image "$EVENT_DETECTOR_IMAGE"
+pull_and_load_image "$EVENT_DETECTOR_RECORDING_PLUGIN_IMAGE"
+pull_and_load_image "$EVENT_DETECTOR_OPERATOR_PLUGIN_IMAGE"
 pull_and_load_image "$MONGO_IMAGE"
 pull_and_load_image "$APPLICATION_MANAGER_IMAGE"
 pull_and_load_image "$ROSBAG_IMAGE"
