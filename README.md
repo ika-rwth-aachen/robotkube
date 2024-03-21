@@ -1,4 +1,5 @@
 # RobotKube
+<img src="assets/robotkube_logo.png" height=180 align="right">
 
 This repository accompanies our paper titled **RobotKube: Orchestrating Large-Scale Cooperative Multi-Robot Systems with Kubernetes and ROS**.
 
