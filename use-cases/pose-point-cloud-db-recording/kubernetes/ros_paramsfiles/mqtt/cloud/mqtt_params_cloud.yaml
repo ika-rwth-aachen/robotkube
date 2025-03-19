@@ -1,0 +1,64 @@
+mqtt_client_cloud_pose:
+  ros__parameters:
+    broker:
+      host: service-mqtt-broker-mosquitto
+      port: 1883
+    bridge:
+      mqtt2ros:
+        mqtt_topics: 
+          - mqtt/clock
+          - mqtt/tf
+          - mqtt/tf_static
+          - mqtt/vehicles/vehicle_00/pose
+          - mqtt/vehicles/vehicle_01/pose
+          - mqtt/vehicles/vehicle_02/pose
+          - mqtt/vehicles/vehicle_03/pose
+          - mqtt/vehicles/vehicle_04/pose
+          - mqtt/vehicles/vehicle_05/pose
+          - mqtt/vehicles/vehicle_06/pose
+          - mqtt/vehicles/vehicle_07/pose
+          - mqtt/vehicles/vehicle_08/pose
+          - mqtt/vehicles/vehicle_09/pose
+          - mqtt/vehicles/vehicle_10/pose
+          - mqtt/vehicles/vehicle_11/pose
+          - mqtt/vehicles/vehicle_12/pose
+          - mqtt/vehicles/vehicle_13/pose
+          - mqtt/vehicles/vehicle_14/pose
+        mqtt/clock:
+          ros_topic: /clock
+        mqtt/tf:
+          ros_topic: /tf
+        mqtt/tf_static:
+          ros_topic: /tf_static
+        mqtt/vehicles/vehicle_00/pose:
+          ros_topic: /vehicles/vehicle_00/pose
+        mqtt/vehicles/vehicle_01/pose:
+          ros_topic: /vehicles/vehicle_01/pose
+        mqtt/vehicles/vehicle_02/pose:
+          ros_topic: /vehicles/vehicle_02/pose
+        mqtt/vehicles/vehicle_03/pose:
+          ros_topic: /vehicles/vehicle_03/pose
+        mqtt/vehicles/vehicle_04/pose:
+          ros_topic: /vehicles/vehicle_04/pose
+        mqtt/vehicles/vehicle_05/pose:
+          ros_topic: /vehicles/vehicle_05/pose
+        mqtt/vehicles/vehicle_06/pose:
+          ros_topic: /vehicles/vehicle_06/pose
+        mqtt/vehicles/vehicle_07/pose:
+          ros_topic: /vehicles/vehicle_07/pose
+        mqtt/vehicles/vehicle_08/pose:
+          ros_topic: /vehicles/vehicle_08/pose
+        mqtt/vehicles/vehicle_09/pose:
+          ros_topic: /vehicles/vehicle_09/pose
+        mqtt/vehicles/vehicle_10/pose:
+          ros_topic: /vehicles/vehicle_10/pose
+        mqtt/vehicles/vehicle_11/pose:
+          ros_topic: /vehicles/vehicle_11/pose
+        mqtt/vehicles/vehicle_12/pose:
+          ros_topic: /vehicles/vehicle_12/pose
+        mqtt/vehicles/vehicle_13/pose:
+          ros_topic: /vehicles/vehicle_13/pose
+        mqtt/vehicles/vehicle_14/pose:
+          ros_topic: /vehicles/vehicle_14/pose
+    client: 
+        id: "mqtt_client_cloud_pose"

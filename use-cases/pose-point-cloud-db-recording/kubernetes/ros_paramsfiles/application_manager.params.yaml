@@ -1,0 +1,45 @@
+application_manager:
+  ros__parameters:
+
+    # common parameters
+    # cluster_config: "config/cluster_config.yml"
+    namespace: "default"
+    deployment_action_name: "/event_detector_operator_plugin/operator_plugin/deployment_request"
+    helm_release_tag: "appmanager"      # tag for the Helm release, used to filter releases to be uninstalled
+    k3d_image_registry: "k3d-robotkube-registry.localhost:41673"
+
+    # application registry parameters
+    url_application_registry: "https://github.com/ika-rwth-aachen/robotkube/releases/download"
+
+    # application parameters
+    applications:
+
+      event_detector_database:
+        database:
+          name: mongodb
+          host: mongodb
+          port: 27017
+
+    # connection parameters
+    connections:
+
+      init_comm_topics:
+        - /vehicles/vehicle_00/pose
+        - /vehicles/vehicle_01/pose
+        - /vehicles/vehicle_02/pose
+        - /vehicles/vehicle_03/pose
+        - /vehicles/vehicle_04/pose
+        - /vehicles/vehicle_05/pose
+        - /vehicles/vehicle_06/pose
+        - /vehicles/vehicle_07/pose
+        - /vehicles/vehicle_08/pose
+        - /vehicles/vehicle_09/pose
+        - /vehicles/vehicle_10/pose
+        - /vehicles/vehicle_11/pose
+        - /vehicles/vehicle_12/pose
+        - /vehicles/vehicle_13/pose
+        - /vehicles/vehicle_14/pose
+
+      communication_broker:
+        host: service-mqtt-broker-mosquitto
+        port: 1883

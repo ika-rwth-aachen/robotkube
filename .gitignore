@@ -1,5 +1,1 @@
-data/*
-!data/docker-compose.yml
-!data/db/.gitkeep
-!data/large_data/.gitkeep
 robotkube-k3d-cluster.yaml

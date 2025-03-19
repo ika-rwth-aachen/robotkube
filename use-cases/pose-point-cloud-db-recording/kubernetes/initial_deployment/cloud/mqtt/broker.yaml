@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cloud-broker
+  labels:
+    tag: robotkube
+    app: cloud-broker
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cloud-broker
+  template:
+    metadata:
+      labels:
+        app: cloud-broker
+    spec:
+      terminationGracePeriodSeconds: 0
+      nodeSelector:
+        node_id: cloud
+      containers:
+      - name: mqtt-broker-mosquitto
+        image: k3d-robotkube-registry.localhost:41673/eclipse-mosquitto:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 1883
+        command: ["mosquitto"]
+        args: ["-c", "/mosquitto-no-auth.conf"]
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-mqtt-broker-mosquitto
+  labels:
+    tag: robotkube
+spec:
+  selector:
+    app: cloud-broker
+  ports:
+  - port: 1883
+    targetPort: 1883
