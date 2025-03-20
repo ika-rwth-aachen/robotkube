@@ -51,4 +51,4 @@ We aim to provide reproducible use cases that demonstrate the capabilities of Ro
 
 ## Acknowledgements
 
-This research is accomplished within the research projects ”[AUTOtech.*agil*](https://www.ika.rwth-aachen.de/en/competences/projects/automated-driving/autotech-agil-en.html)” (FKZ 1IS22088A), ”[UNICAR*agil*](https://www.unicaragil.de/en/)” (FKZ 16EMO0284K), and ”[6GEM](https://www.6gem.de/en/)” (FKZ 16KISK036K). We acknowledge the financial support by the Federal Ministry of Education and Research of Germany (BMBF).
+This research is accomplished within the research projects ”[autotech.agil](https://www.autotechagil.de/)” (FKZ 1IS22088A), ”[UNICAR*agil*](https://www.unicaragil.de/en/)” (FKZ 16EMO0284K), and ”[6GEM](https://www.6gem.de/en/)” (FKZ 16KISK036K). We acknowledge the financial support by the Federal Ministry of Education and Research of Germany (BMBF).

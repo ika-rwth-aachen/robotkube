@@ -11,7 +11,7 @@
 
 ## Use Case Description
 
-The use case involves fifteen connected vehicles, two of which are equipped with a lidar sensor. All vehicles send their poses to a cloud. When the lidar-equipped vehicles are near each other, the deployment of additional applications in the Kubernetes cluster is automatically triggered such that the two lidar-equipped vehicles start to additionally transmit their lidar point clouds to the cloud where they are stored in a database, along with the corresponding poses, e.g., allowing [collective learning](https://doi.org/10.1007/s38314-022-1405-9).
+The use case involves fifteen connected vehicles, two of which are equipped with a lidar sensor. All vehicles send their poses to a cloud. When the lidar-equipped vehicles are near each other, the deployment of additional applications in the Kubernetes cluster is automatically triggered such that the two lidar-equipped vehicles start to additionally transmit their lidar point clouds to the cloud where they are stored in a database, along with the corresponding poses, allowing, e.g., [collective learning](https://doi.org/10.1007/s38314-022-1405-9).
 
 <p align="center">
   <img src="assets/robotkube_teaser.gif" alt="The video shows a section of the data upon which the use case is built. Poses of vehicles with no lidar sensor are visualized as green arrows. Poses of lidar-equipped vehicles are visualized as red arrows. The point clouds can be seen in blue and orange. The playback is sped up eightfold." width="100%">
@@ -52,7 +52,7 @@ If not available already, install the following:
 
 - [Ubuntu](https://ubuntu.com/download/desktop)
 - [Docker Engine](https://docs.docker.com/engine/install/ubuntu/) 
-- [K3D](https://k3d.io/v5.6.0/#install-current-latest-release)
+- [k3d](https://k3d.io/v5.6.0/#install-current-latest-release)
 - [kubectl](https://kubernetes.io/docs/tasks/tools/#kubectl)
 - [Helm](https://helm.sh/docs/intro/install/)
 - Python Package [PyYAML](https://pypi.org/project/PyYAML/)
@@ -115,7 +115,7 @@ sudo sysctl fs.inotify.max_user_instances=512
     ./stop.sh
     ```
 
-1. If you want to delete the K3D cluster, run
+1. If you want to delete the k3d cluster, run
     ```bash
     k3d cluster delete robotkube
     ```
