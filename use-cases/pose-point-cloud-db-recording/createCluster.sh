@@ -3,6 +3,18 @@
 # Delete previous robotkube cluster if it exists
 if k3d cluster list | grep -q "robotkube"; then k3d cluster delete robotkube; fi
 
+# Minimum required disk space in GB
+REQUIRED=400
+
+# Get available disk space on root (/) in GB (integer, no unit)
+AVAILABLE=$(df -B1G / | awk 'NR==2 {sub(/G/,"",$4); print $4}')
+
+# Exit if available space is below requirement
+if (( AVAILABLE < REQUIRED )); then
+  echo "Not enough disk space available. Required: ${REQUIRED} GB, but only ${AVAILABLE} GB available."
+  exit 1
+fi
+
 # Create robotkube cluster using config file
 SCRIPT_PATH=$(readlink -f "$0")
 SCRIPT_DIR=$(dirname "$SCRIPT_PATH")
