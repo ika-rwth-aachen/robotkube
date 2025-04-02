@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vehicle-05-publisher
+  labels:
+    tag: robotkube
+    app: vehicle-05-publisher
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vehicle-05-publisher
+  template:
+    metadata:
+      labels:
+        app: vehicle-05-publisher
+    spec:
+      terminationGracePeriodSeconds: 0
+      nodeSelector:
+        node_id: vehicle_05
+      containers:
+      - name: rosbag-play
+        image: k3d-robotkube-registry.localhost:41673/robotkube:ros2_bag_files
+        imagePullPolicy: IfNotPresent
+        command:
+          - /bin/bash
+          - -c
+          - |
+            source /opt/ros/$ROS_DISTRO/setup.bash
+            while true; do ros2 topic list &> /dev/null && echo "ROS is running" && break; echo "ROS is not running, retrying in 0.1s"; sleep 0.1; done
+            sleep infinity

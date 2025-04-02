@@ -1,0 +1,22 @@
+mqtt_client_vehicle_00_pose:
+  ros__parameters:
+    broker:
+      host: service-mqtt-broker-mosquitto
+      port: 1883
+    bridge:
+      ros2mqtt:
+        ros_topics: 
+          - /clock
+          - /tf
+          - /tf_static
+          - /vehicles/vehicle_00/pose
+        /clock:
+          mqtt_topic: mqtt/clock
+        /tf:
+          mqtt_topic: mqtt/tf
+        /tf_static:
+          mqtt_topic: mqtt/tf_static
+        /vehicles/vehicle_00/pose:
+          mqtt_topic: mqtt/vehicles/vehicle_00/pose
+    client: 
+        id: "mqtt_client_vehicle_00_pose"

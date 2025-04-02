@@ -1,0 +1,53 @@
+nodes:
+  cloud:
+    - application_manager:latest
+    - eclipse-mosquitto:latest
+    - event_detector_operator:latest
+    - event_detector_db_recording:latest
+    - mongo:6
+    - mqtt_client:latest
+  vehicle_00:
+    - mqtt_client:latest
+    - robotkube:ros2_bag_files
+  vehicle_01:
+    - mqtt_client:latest
+    - robotkube:ros2_bag_files
+  vehicle_02:
+    - mqtt_client:latest
+    - robotkube:ros2_bag_files
+  vehicle_03:
+    - mqtt_client:latest
+    - robotkube:ros2_bag_files
+  vehicle_04:
+    - mqtt_client:latest
+    - robotkube:ros2_bag_files
+  vehicle_05:
+    - mqtt_client:latest
+    - robotkube:ros2_bag_files
+  vehicle_06:
+    - mqtt_client:latest
+    - robotkube:ros2_bag_files
+  vehicle_07:
+    - mqtt_client:latest
+    - robotkube:ros2_bag_files
+  vehicle_08:
+    - mqtt_client:latest
+    - robotkube:ros2_bag_files
+  vehicle_09:
+    - mqtt_client:latest
+    - robotkube:ros2_bag_files
+  vehicle_10:
+    - mqtt_client:latest
+    - robotkube:ros2_bag_files
+  vehicle_11:
+    - mqtt_client:latest
+    - robotkube:ros2_bag_files
+  vehicle_12:
+    - mqtt_client:latest
+    - robotkube:ros2_bag_files
+  vehicle_13:
+    - mqtt_client:latest
+    - robotkube:ros2_bag_files
+  vehicle_14:
+    - mqtt_client:latest
+    - robotkube:ros2_bag_files    

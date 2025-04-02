@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cloud-database
+  labels:
+    tag: robotkube
+    app: cloud-database
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cloud-database
+  template:
+    metadata:
+      labels:
+        app: cloud-database
+    spec:
+      terminationGracePeriodSeconds: 0
+      nodeSelector:
+        node_id: cloud
+      containers:
+      - name: mongodb
+        image: k3d-robotkube-registry.localhost:41673/mongo:6
+        imagePullPolicy: IfNotPresent
+        ports:
+          - containerPort: 27017
+        volumeMounts:
+        - name: mongodb-volume
+          mountPath: /data/db
+      volumes:
+        - name: mongodb-volume
+          persistentVolumeClaim:
+            claimName: mongodb-pvc
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongodb
+  labels:
+    tag: robotkube
+spec:
+  selector:
+    app: cloud-database
+  ports:
+    - name: mongodb
+      port: 27017
+      targetPort: 27017

@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cloud-operator
+  labels:
+    tag: robotkube
+    app: cloud-operator
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cloud-operator
+  template:
+    metadata:
+      labels:
+        app: cloud-operator
+    spec:
+      terminationGracePeriodSeconds: 0
+      nodeSelector:
+        node_id: cloud
+      containers:
+        - name: robotkube-event-detector-operator
+          image: k3d-robotkube-registry.localhost:41673/event_detector_operator:latest
+          imagePullPolicy: IfNotPresent
+          command:
+            - /bin/bash
+            - -c
+            - |
+              source install/setup.bash
+              until ros2 topic list &> /dev/null; do echo "Waiting for ROS ..."; sleep 0.1; done
+              ros2 launch event_detector_operator_plugin event_detector_operator_plugin.launch.py params:=/docker-ros/ws/install/share/event_detector/config/event_detector_operator.params.yaml name:=event_detector_operator_plugin startup_state:=3
+          volumeMounts:
+          - name: event-detector-operator-config-volume
+            mountPath: /docker-ros/ws/install/share/event_detector/config
+        - name: robotkube-application-manager
+          image: k3d-robotkube-registry.localhost:41673/application_manager:latest
+          imagePullPolicy: IfNotPresent
+          command:
+            - /bin/bash
+            - -c
+            - |
+              source install/setup.bash
+              until ros2 topic list &> /dev/null; do echo "Waiting for ROS ..."; sleep 0.1; done
+              ros2 launch application_manager application_manager.launch.py params:=/docker-ros/ws/install/application_manager/share/application_manager/config/application_manager.params.yaml
+          volumeMounts:
+          - name: application-manager-config-volume
+            mountPath: /docker-ros/ws/install/application_manager/share/application_manager/config
+      volumes:
+      - name: event-detector-operator-config-volume
+        configMap:
+          name: event-detector-operator-params
+      - name: application-manager-config-volume
+        configMap:
+          name: application-manager-params
