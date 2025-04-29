@@ -1,0 +1,3 @@
+url_application_registry: "https://github.com/ika-rwth-aachen/robotkube/releases/download"
+configmap_namespace: "default"
+configmap_application_registry_interface: "application-registry-interface"

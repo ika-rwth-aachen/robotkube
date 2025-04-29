@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cloud-application-manager
+  labels:
+    tag: robotkube
+    app: cloud-application-manager
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cloud-application-manager
+  template:
+    metadata:
+      labels:
+        app: cloud-application-manager
+    spec:
+      terminationGracePeriodSeconds: 0
+      nodeSelector:
+        node_id: cloud
+      serviceAccountName: service-account-application-manager
+      containers:
+        - name: application-manager
+          image: k3d-robotkube-registry.localhost:41670/application_manager:latest
+          imagePullPolicy: IfNotPresent
+          command:
+            - /bin/bash
+            - -c
+            - |
+              source install/setup.bash
+              ros2 launch application_manager application_manager.launch.py params:=/mounted_config/application_manager.params.yml
+          volumeMounts:
+          - name: application-manager-config-volume
+            mountPath: /mounted_config
+      volumes:
+      - name: application-manager-config-volume
+        configMap:
+          name: application-manager-params

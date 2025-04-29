@@ -1,0 +1,10 @@
+helm_charts:
+  - type: "TYPE_MQTT"
+    chart_name: "mqtt-connection-helm"
+    chart_version: "0.1.0"
+  - type: "TYPE_OBJECT_FUSION"
+    chart_name: "object-fusion-helm"
+    chart_version: "0.1.1"
+  - type: "TYPE_OBJECT_DETECTION"
+    chart_name: "object-detection-helm"
+    chart_version: "0.1.2"

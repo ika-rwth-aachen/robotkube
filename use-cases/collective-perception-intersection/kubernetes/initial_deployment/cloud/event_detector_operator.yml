@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cloud-event-detector-operator
+  labels:
+    tag: robotkube
+    app: cloud-event-detector-operator
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cloud-event-detector-operator
+  template:
+    metadata:
+      labels:
+        app: cloud-event-detector-operator
+    spec:
+      terminationGracePeriodSeconds: 0
+      nodeSelector:
+        node_id: cloud
+      containers:
+        - name: event-detector-operator
+          image: k3d-robotkube-registry.localhost:41670/event_detector_operator:latest
+          imagePullPolicy: IfNotPresent
+          command:
+            - /bin/bash
+            - -c
+            - |
+              source install/setup.bash
+              ros2 launch event_detector_operator_plugin event_detector_operator_plugin.launch.py params:=/mounted_config/event_detector_operator.params.yml name:=event_detector_operator_plugin startup_state:=3
+          volumeMounts:
+          - name: event-detector-operator-config-volume
+            mountPath: /mounted_config
+      volumes:
+      - name: event-detector-operator-config-volume
+        configMap:
+          name: event-detector-operator-params

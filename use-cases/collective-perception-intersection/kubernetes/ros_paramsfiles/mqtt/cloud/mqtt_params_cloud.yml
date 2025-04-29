@@ -1,0 +1,31 @@
+mqtt_client_cloud_ego_data:
+  ros__parameters:
+    broker:
+      host: service-mqtt-broker-cloud
+      port: 1883
+    bridge:
+      mqtt2ros:
+        mqtt_topics: 
+          - mqtt/clock
+          - mqtt/tf
+          - mqtt/tf_static
+          - mqtt/vehicles/vehicle00/ego_data
+          - mqtt/vehicles/vehicle01/ego_data
+          - mqtt/vehicles/vehicle02/ego_data
+          - mqtt/vehicles/vehicle03/ego_data
+        mqtt/clock:
+          ros_topic: /clock
+        mqtt/tf:
+          ros_topic: /tf
+        mqtt/tf_static:
+          ros_topic: /tf_static
+        mqtt/vehicles/vehicle00/ego_data:
+          ros_topic: /vehicles/vehicle00/ego_data
+        mqtt/vehicles/vehicle01/ego_data:
+          ros_topic: /vehicles/vehicle01/ego_data
+        mqtt/vehicles/vehicle02/ego_data:
+          ros_topic: /vehicles/vehicle02/ego_data
+        mqtt/vehicles/vehicle03/ego_data:
+          ros_topic: /vehicles/vehicle03/ego_data
+    client: 
+        id: "mqtt_client_cloud_ego_data"

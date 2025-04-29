@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kopf-operator-mqtt
+  labels:
+    tag: robotkube
+    app: kopf-operator-mqtt
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kopf-operator-mqtt
+  template:
+    metadata:
+      labels:
+        app: kopf-operator-mqtt
+    spec:
+      terminationGracePeriodSeconds: 0
+      nodeSelector:
+        node_id: cloud
+      serviceAccountName: service-account-kopf-operator
+      containers:
+        - name: kopf-operator-mqtt
+          image: k3d-robotkube-registry.localhost:41670/kopf_mqtt_operator:latest
+          imagePullPolicy: IfNotPresent
+          command:
+            - /bin/bash
+            - -c
+            - kopf run /operator/mqtt_connection_operator.py
+          volumeMounts:
+          - name: kopf-operator-config-volume
+            mountPath: /config
+          - name: kopf-operator-bookkeeping
+            mountPath: /bookkeeping_data
+      volumes:
+      - name: kopf-operator-config-volume
+        configMap:
+          name: kubernetes-operator-configuration
+      - name: kopf-operator-bookkeeping
+        persistentVolumeClaim:
+          claimName: mqtt-operator-pvc
