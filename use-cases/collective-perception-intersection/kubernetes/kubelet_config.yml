@@ -1,0 +1,7 @@
+kind: KubeletConfiguration
+apiVersion: kubelet.config.k8s.io/v1beta1
+# configuration down below
+configMapAndSecretChangeDetectionStrategy: Get
+syncFrequency: 60s
+imageMinimumGCAge: 1h
+serializeImagePulls: false

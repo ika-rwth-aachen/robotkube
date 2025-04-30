@@ -18,7 +18,7 @@ fi
 # Create robotkube cluster using config file
 SCRIPT_PATH=$(readlink -f "$0")
 SCRIPT_DIR=$(dirname "$SCRIPT_PATH")
-cat <<EOL > robotkube-k3d-cluster.yaml
+cat <<EOL > $SCRIPT_DIR/robotkube-k3d-cluster.yaml
 kind: Simple
 apiVersion: k3d.io/v1alpha5
 servers: 1
@@ -79,7 +79,7 @@ options:
           - agent:14
 EOL
 # Create k3d cluster and allow more memory usage per node than default
-k3d cluster create robotkube --config=robotkube-k3d-cluster.yaml --registry-use k3d-robotkube-registry.localhost:41673 \
+k3d cluster create robotkube --config=$SCRIPT_DIR/robotkube-k3d-cluster.yaml --registry-use k3d-robotkube-registry.localhost:41673 \
   --k3s-arg "--kubelet-arg=eviction-hard=memory.available<200Mi,nodefs.available<5%,imagefs.available<5%@all" \
   --k3s-arg "--kubelet-arg=eviction-soft=memory.available<500Mi,nodefs.available<10%,imagefs.available<10%@all" \
   --k3s-arg "--kubelet-arg=eviction-soft-grace-period=memory.available=1m,nodefs.available=1m,imagefs.available=1m@all"

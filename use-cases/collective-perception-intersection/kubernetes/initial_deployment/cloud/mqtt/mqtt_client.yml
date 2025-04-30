@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cloud-mqtt-ego-data
+  labels:
+    tag: robotkube
+    app: cloud-mqtt-ego-data
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cloud-mqtt-ego-data
+  template:
+    metadata:
+      labels:
+        app: cloud-mqtt-ego-data
+    spec:
+      terminationGracePeriodSeconds: 0
+      nodeSelector:
+        node_id: cloud
+      containers:
+        - name: mqtt-client-cloud
+          image: k3d-robotkube-registry.localhost:41670/mqtt_client:latest
+          imagePullPolicy: IfNotPresent
+          command:
+            - /bin/bash
+            - -c
+            - |
+              source install/setup.bash
+              ros2 launch mqtt_client standalone.launch.ros2.xml node_name:=mqtt_client_cloud_ego_data params_file:=/mounted_config/mqtt_params_cloud.yml
+          volumeMounts:
+          - name: mqtt-cloud-config-volume
+            mountPath: /mounted_config
+      volumes:
+      - name: mqtt-cloud-config-volume
+        configMap:
+          name: mqtt-params-cloud

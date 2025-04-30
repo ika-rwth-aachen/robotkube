@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: edge-broker
+  labels:
+    tag: robotkube
+    app: edge-broker
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: edge-broker
+  template:
+    metadata:
+      labels:
+        app: edge-broker
+    spec:
+      terminationGracePeriodSeconds: 0
+      nodeSelector:
+        node_id: edge
+      containers:
+      - name: mqtt-broker-mosquitto
+        image: k3d-robotkube-registry.localhost:41670/eclipse-mosquitto:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 1993
+        command: ["mosquitto"]
+        args: ["-c", "/mounted_config/mosquitto.conf"]
+        volumeMounts:
+        - name: mosquitto-broker-edge-config-volume
+          mountPath: /mounted_config
+      volumes:
+        - name: mosquitto-broker-edge-config-volume
+          configMap:
+            name: mosquitto-broker-edge-configmap
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-mqtt-broker-edge
+  labels:
+    tag: robotkube
+spec:
+  selector:
+    app: edge-broker
+  ports:
+  - port: 1993
+    targetPort: 1993

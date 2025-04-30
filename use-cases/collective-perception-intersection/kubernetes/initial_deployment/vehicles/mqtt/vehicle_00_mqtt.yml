@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vehicle-00-mqtt
+  labels:
+    tag: robotkube
+    app: vehicle-00-mqtt
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vehicle-00-mqtt
+  template:
+    metadata:
+      labels:
+        app: vehicle-00-mqtt
+    spec:
+      terminationGracePeriodSeconds: 0
+      nodeSelector:
+        node_id: vehicle00
+      containers:
+      - name: mqtt-client-vehicle-00
+        image: k3d-robotkube-registry.localhost:41670/mqtt_client:latest
+        imagePullPolicy: IfNotPresent
+        command:
+          - /bin/bash
+          - -c
+          - |
+            source install/setup.bash
+            ros2 launch mqtt_client standalone.launch.ros2.xml node_name:=mqtt_client_vehicle_00_ego_data params_file:=/mounted_config/mqtt_params_vehicle_00.yml
+        volumeMounts:
+        - name: mqtt-vehicle-00-config-volume
+          mountPath: /mounted_config
+      volumes:
+        - name: mqtt-vehicle-00-config-volume
+          configMap:
+            name: mqtt-params-vehicles

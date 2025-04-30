@@ -1,0 +1,13 @@
+mqtt_client_vehicle_${ID}_ego_data:
+  ros__parameters:
+    broker:
+      host: service-mqtt-broker-cloud
+      port: 1883
+    bridge:
+      ros2mqtt:
+        ros_topics: 
+          - /vehicles/vehicle${ID}/ego_data
+        /vehicles/vehicle${ID}/ego_data:
+          mqtt_topic: mqtt/vehicles/vehicle${ID}/ego_data
+    client: 
+        id: "mqtt_client_vehicle_${ID}_ego_data"

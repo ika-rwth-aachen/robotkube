@@ -47,7 +47,7 @@ We aim to provide reproducible use cases that demonstrate the capabilities of Ro
 | Use Case | Description |
 | --- | --- |
 | [Pose Point Cloud DB Recording](./use-cases/pose-point-cloud-db-recording) | Use case developed for the original RobotKube paper: In case of proximity of two vehicles providing point clouds, record poses and point clouds to database using Event Detector with Database Recording Plugin |
-| ... | ... |
+| [Collective Perception at Intersection](./use-cases/collective-perception-intersection) | A roadside infrastructure station unit (RISU) is located at an intersection. Connected vehicles approach the intersection with a time shift. Collective perception is performed if at least one connected vehicle is in proximity to the RISU. The application enabling collective perception is executed on an edge server. |
 
 ## Acknowledgements
 

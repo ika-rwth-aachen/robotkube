@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vehicle-01-publisher
+  labels:
+    tag: robotkube
+    app: vehicle-01-publisher
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vehicle-01-publisher
+  template:
+    metadata:
+      labels:
+        app: vehicle-01-publisher
+    spec:
+      terminationGracePeriodSeconds: 0
+      nodeSelector:
+        node_id: vehicle01
+      containers:
+      - name: rosbag-play
+        image: k3d-robotkube-registry.localhost:41670/robotkube:ros2_bag_files_collective_perception
+        imagePullPolicy: IfNotPresent
+        command:
+          - /bin/bash
+          - -c
+          - |
+            source install/setup.bash
+            sleep infinity

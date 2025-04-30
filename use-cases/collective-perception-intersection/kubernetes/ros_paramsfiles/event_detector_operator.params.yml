@@ -1,0 +1,80 @@
+event_detector_operator_plugin:
+  ros__parameters:
+
+    use_sim_time: true
+    startup_state: 3
+
+    # buffer parameters
+    buffer:
+      default_time: 30.0
+      default_queue_size: 20
+      use_msg_stamp: true
+
+    # analysis parameters
+    analysis:
+      default_period: 1.0
+
+    # client names
+    clients:
+      - vehicle00
+      - vehicle01
+      - vehicle02
+      - vehicle03
+
+    # client parameters by client name
+    client_params:
+      vehicle00:
+        tf_prefix: vehicles/vehicle00
+        data_types:
+          - perception_msgs__EgoData
+        data_type_params:
+          perception_msgs__EgoData:
+            topics:
+              - /vehicles/vehicle00/ego_data
+      vehicle01:
+        data_types:
+          - perception_msgs__EgoData
+        data_type_params:
+          perception_msgs__EgoData:
+            topics:
+              - /vehicles/vehicle01/ego_data
+      vehicle02:
+        data_types:
+          - perception_msgs__EgoData
+        data_type_params:
+          perception_msgs__EgoData:
+            topics:
+              - /vehicles/vehicle02/ego_data
+      vehicle03:
+        data_types:
+          - perception_msgs__EgoData
+        data_type_params:
+          perception_msgs__EgoData:
+            topics:
+              - /vehicles/vehicle03/ego_data
+
+    # rule names
+    rules:
+      - event_detector_operator_plugin::ProximityBasedDeploymentIntersectionRule
+
+    # analysis rule parameters by rule name
+    rule_params:
+
+      event_detector_operator_plugin::ProximityBasedDeploymentIntersectionRule:
+        enabled: true
+        parameters:
+          communication_type: "TYPE_MQTT"
+          max_distance_to_start_deployment: 84.0          # distance to start deployment
+          min_distance_to_stop_deployment: 84.0           # distance to stop deployment
+          position_station_x: -5352.679                   # station position
+          position_station_y: -3363.067                   # station position
+          client_name_roadside_its_station: "station00"   # client name of the roadside ITS station
+          node_name_edge_server: "edge"                   # edge node name
+          pointcloud_clients:                             # clients that publish pointcloud topics
+            - vehicle00
+            - station00
+          pointcloud_topics:                              # names of pointcloud topics per client
+            vehicle00:
+              - /vehicles/vehicle00/drivers/lidar/pointcloud
+            station00:
+              - /stations/station00/drivers/lidar/pointcloud

@@ -1,0 +1,271 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: secret-admin
+  labels: 
+    rbac.application-manager/aggregate_to_application_manager: "true"
+    rbac.operator-admin/aggregate_to_operator_admin: "true"
+    tag: robotkube
+rules:
+- apiGroups: [""]
+  resources: ["secrets"]
+  verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: configmap-admin
+  labels: 
+    rbac.application-manager/aggregate_to_application_manager: "true"
+    rbac.configmap-watcher/aggregate_to_configmapwatcher: "true"
+    rbac.operator-admin/aggregate_to_operator_admin: "true"
+    tag: robotkube
+rules:
+- apiGroups: [""]
+  resources: ["configmaps"]
+  verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: services-admin
+  labels: 
+    rbac.application-manager/aggregate_to_application_manager: "true"
+    rbac.operator-admin/aggregate_to_operator_admin: "true"
+    tag: robotkube
+rules:
+- apiGroups: [""]
+  resources: ["services"]
+  verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: deployments-admin
+  labels: 
+    rbac.application-manager/aggregate_to_application_manager: "true"
+    rbac.operator-admin/aggregate_to_operator_admin: "true"
+    tag: robotkube
+rules:
+- apiGroups: ["apps"]
+  resources: ["deployments"]
+  verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: namespaces-admin
+  labels: 
+    rbac.application-manager/aggregate_to_application_manager: "true"
+    rbac.operator-admin/aggregate_to_operator_admin: "true"
+    tag: robotkube
+rules:
+- apiGroups: [""]
+  resources: ["namespaces"]
+  verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: customresource-admin
+  labels: 
+    rbac.application-manager/aggregate_to_application_manager: "true"
+    rbac.operator-admin/aggregate_to_operator_admin: "true"
+    tag: robotkube
+rules:
+- apiGroups: ["ika.rwth-aachen.de"]
+  resources: ["objectdetections", "objectfusions", "mqttconnections"]
+  verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: customresourcedefinition-admin
+  labels: 
+    rbac.application-manager/aggregate_to_application_manager: "true"
+    rbac.operator-admin/aggregate_to_operator_admin: "true"
+    tag: robotkube
+rules:
+- apiGroups: ["", "apiextensions.k8s.io"]
+  resources: ["customresourcedefinitions"]
+  verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: kopf-operator-cluster-admin
+  labels: 
+    rbac.operator-admin/aggregate_to_operator_admin: "true"
+    tag: robotkube
+rules:
+
+  # Framework: knowing which other operators are running (i.e. peering).
+  - apiGroups: ["kopf.dev"]
+    resources: ["clusterkopfpeerings"]
+    verbs: ["list", "watch", "patch", "get"]
+
+  # Framework: runtime observation of namespaces & CRDs (addition/deletion).
+  - apiGroups: ["apiextensions.k8s.io"]
+    resources: ["customresourcedefinitions"]
+    verbs: ["list", "watch"]
+  - apiGroups: [""]
+    resources: ["namespaces"]
+    verbs: ["list", "watch"]
+
+  # Framework: admission webhook configuration management.
+  - apiGroups: ["admissionregistration.k8s.io"]
+    resources: ["validatingwebhookconfigurations", "mutatingwebhookconfigurations"]
+    verbs: ["create", "patch"]
+
+  # Application: read-only access for watching cluster-wide.
+  - apiGroups: ["ika.rwth-aachen.de"]
+    resources: ["objectdetections", "objectfusions", "mqttconnections"]
+    verbs: ["list", "watch"]
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: kopf-operator-namespace-admin
+  namespace: default
+  labels: 
+    tag: robotkube
+rules:
+
+  # Framework: knowing which other operators are running (i.e. peering).
+  - apiGroups: [kopf.dev]
+    resources: [kopfpeerings]
+    verbs: ["list", "watch", "patch", "get"]
+
+  # Framework: posting the events about the handlers progress/errors.
+  - apiGroups: [""]
+    resources: [events]
+    verbs: ["create"]
+
+  # Application: watching & handling for the custom resource we declare.
+  - apiGroups: [ika.rwth-aachen.de]
+    resources: [objectdetections, objectfusions, mqttconnections]
+    verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+
+  # Application: other resources it produces and manipulates.
+  - apiGroups: [""]
+    resources: [deployments, configmaps, secrets]
+    verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+
+
+## aggregate roles
+---
+# aggregates roles based on label 
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: application-manager
+  labels:
+    tag: robotkube
+aggregationRule:
+  clusterRoleSelectors:
+  - matchLabels:
+      rbac.application-manager/aggregate_to_application_manager: "true"
+rules: [] # The control plane automatically fills in the rules
+
+---
+# aggregates roles based on label 
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: configmap-watcher
+  labels:
+    tag: robotkube
+aggregationRule:
+  clusterRoleSelectors:
+  - matchLabels:
+      rbac.configmap-watcher/aggregate_to_configmapwatcher: "true"
+rules: [] # The control plane automatically fills in the rules
+
+---
+# aggregates roles based on label 
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: kopf-operator
+  labels:
+    tag: robotkube
+aggregationRule:
+  clusterRoleSelectors:
+  - matchLabels:
+      rbac.operator-admin/aggregate_to_operator_admin: "true"
+rules: [] # The control plane automatically fills in the rules
+
+
+## Role Bindings
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: application-manager-binding
+  labels:
+    tag: robotkube
+subjects:
+- kind: ServiceAccount
+  name: service-account-application-manager
+  namespace: default
+roleRef:
+  kind: ClusterRole
+  name: application-manager # reference to ClusterRole
+  apiGroup: rbac.authorization.k8s.io
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: configmap-watcher-binding
+  labels:
+    tag: robotkube
+subjects:
+- kind: ServiceAccount
+  name: service-account-configmap-watcher
+  namespace: default
+roleRef:
+  kind: ClusterRole
+  name: configmap-watcher # reference to ClusterRole
+  apiGroup: rbac.authorization.k8s.io
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: kopf-operator-binding
+  labels:
+    tag: robotkube
+subjects:
+- kind: ServiceAccount
+  name: service-account-kopf-operator
+  namespace: default
+roleRef:
+  kind: ClusterRole
+  name: kopf-operator # reference to ClusterRole
+  apiGroup: rbac.authorization.k8s.io
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: kopf-operator-namespace-binding
+  namespace: default
+  labels:
+    tag: robotkube
+subjects:
+- kind: ServiceAccount
+  name: service-account-kopf-operator
+  namespace: default
+roleRef:
+  kind: Role
+  name: kopf-operator-namespace-admin # reference to Role
+  apiGroup: rbac.authorization.k8s.io
